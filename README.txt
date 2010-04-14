@@ -1,0 +1,1 @@
+These libraries should be used in a project created with the tidy rubygem, available here: http://github.com/michaelforrest/tidy
