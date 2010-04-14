@@ -18,7 +18,7 @@ package tidy.mvc.view {
 		public function ViewBase(options : Object = null) {
 			super(options);
 		}
-		
+		// trys
 		protected function beginInvisibleFill(g : Graphics) : void {
 			if(Debug.showInvisibleFills()){
 				g.beginFill(0.5 * 0xFFFFFF * Math.random(),0.2);
