@@ -1,6 +1,4 @@
 package tidy.mvc.view {
-	import themes.Theme;
-
 	import tidy.mvc.collection.Collection;
 	import tidy.mvc.helper.TypographyBase;
 
@@ -9,6 +7,7 @@ package tidy.mvc.view {
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
 
+    import app.helpers.Typography;
 	/**
 	 * @author michaelforrest
 	 */
@@ -99,9 +98,9 @@ package tidy.mvc.view {
 			element.y = nextY;
 		}
 		
-		public function text(text : String, style : String) : DisplayObject {
+		public function text(text : String, style : String="Paragraph") : DisplayObject {
 			if(text == null) trace("Error trying to set text of " + this + " to null" );
-			var txt : TextField = addTextField(Theme.current().stylesheet['style'](style), new Rectangle(leftMargin, 0, columnWidth, 1000));
+			var txt : TextField = addTextField(new Typography(style), new Rectangle(leftMargin, 0, columnWidth, 1000));
 			txt.text = text;
 			txt.height = txt.textHeight + 4; // if 2px padding is still the strange magic number
 			return txt;
