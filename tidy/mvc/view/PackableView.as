@@ -18,10 +18,10 @@ package tidy.mvc.view {
 		private var nextX : Number = 0;
 		public var nextY : Number = 0;
 		public var spacing : Number = 0;
-		public var leftMargin : Number = 0;
+		public var paddingLeft : Number = 0;
 		public var columnWidth : Number = 200;
 		private var elements : Collection;
-		public var topMargin : Number = 0;
+		public var paddingTop : Number = 0;
 		private var maxHeight : Number;
 		private var maxWidth : Number;
 
@@ -31,8 +31,8 @@ package tidy.mvc.view {
 			elements = new Collection();
 			if(options) for (var key : String in options) this[key] = options[key];
 
-			nextX = leftMargin;
-			nextY = topMargin;
+			nextX = paddingLeft;
+			nextY = paddingTop;
 			
 		}
 		public function addTextField(style : TypographyBase, rectangle : Rectangle,  copy: String ="") : TextField {
@@ -75,7 +75,7 @@ package tidy.mvc.view {
 		protected function placeElement(element : DisplayObject) : void {
 			if(orientation == VERTICAL){
 				if(maxHeight && nextY + element.height  > maxHeight) {
-					nextY = topMargin;
+					nextY = paddingTop;
 					nextX += columnWidth + spacing;
 				}
 				moveElement(element,nextX,nextY);
@@ -85,7 +85,7 @@ package tidy.mvc.view {
 				maxRowHeight = Math.max(maxRowHeight, element.height);
 				if(maxWidth && nextX + element.width > maxWidth) {
 					nextY += maxRowHeight + spacing;
-					nextX = leftMargin;
+					nextX = paddingLeft;
 					maxRowHeight = 0;
 				}
 				moveElement(element,nextX,nextY);
@@ -100,14 +100,14 @@ package tidy.mvc.view {
 		
 		public function text(text : String, style : String="Paragraph") : DisplayObject {
 			if(text == null) trace("Error trying to set text of " + this + " to null" );
-			var txt : TextField = addTextField(new Typography(style), new Rectangle(leftMargin, 0, columnWidth, 1000));
+			var txt : TextField = addTextField(new Typography(style), new Rectangle(paddingLeft, 0, columnWidth, 1000));
 			txt.text = text;
 			txt.height = txt.textHeight + 4; // if 2px padding is still the strange magic number
 			return txt;
 		}
 
 		public function row(views : Array) : void {
-			var nextX : Number = leftMargin;
+			var nextX : Number = paddingLeft;
 			var maxHeight : Number = 0;
 			for (var i : Number = 0; i < views.length; i++) {
 				var view:DisplayObject = views[i];
@@ -121,8 +121,8 @@ package tidy.mvc.view {
 			nextY += maxHeight + spacing;
 		}
 		public function layoutElements() : void {
-			nextX = leftMargin;
-			nextY = topMargin;
+			nextX = paddingLeft;
+			nextY = paddingTop;
 			for (var i : Number = 0; i < elements.length; i++) {
 				var element:DisplayObject = elements[i];
 				placeElement(element);
@@ -136,8 +136,8 @@ package tidy.mvc.view {
 				element = null;
 			}
 			elements = new Collection();
-			nextY = topMargin;
-			nextX = leftMargin;
+			nextY = paddingTop;
+			nextX = paddingLeft;
 		}
 		public function addChildFromLibrary(assetClass : Class, options : Object = null) : ViewBase {
 			if(!assetClass) return null;
