@@ -1,8 +1,6 @@
-package tidy.mvc.helper {
+package tidy.mvc.helper 
+{
 	import tidy.mvc.view.TidyTextField;
-
-	import flash.geom.Rectangle;
-	import flash.text.TextField;
 	import flash.text.TextFormat;
 
 	/**
@@ -57,9 +55,47 @@ package tidy.mvc.helper {
  * </pre>
  *
  */
-	public class TypographyBase {
+	public class TypographyBase
+	{
 
-		public var vertical_offset : Number = 0;
+		/**
+		 * Returns the width of a string given a style
+		 * @param the text style
+		 * @param the text content
+		 * @return the total width
+		 *
+		 * @author christian
+		 */
+		public static function getTextWidth (style : TypographyBase, text : String) : Number
+		{
+			var new_style : TypographyBase = style.clone();
+			new_style.doOneLine();
+			new_style.antiAliasType = "normal";
+			var txt : TidyTextField = new TidyTextField(new_style);
+			if(new_style.html){
+				txt.htmlText = text;
+			}else{
+				txt.text = text;
+			}
+			return txt.textWidth;
+		}
+		
+		/**
+		 * Returns the height of a single line with the given style. It will use "W" as test character.
+		 * @param the style
+		 * @return the height of the line
+		 *
+		 * @author christian
+		 */
+		public static function getLineHeight ( style : TypographyBase) : Number
+		{
+			var new_style : TypographyBase = style.clone();
+			new_style.doOneLine();
+			new_style.antiAliasType = "normal";
+			var txt : TidyTextField = new TidyTextField(new_style);
+			txt.text = "W";
+			return txt.textHeight;
+		}
 		
 		public function TypographyBase(style:String = "") {
 			Defaults();
@@ -69,20 +105,11 @@ package tidy.mvc.helper {
 				trace("ERROR: Style " + style + " not found on " + this);
 			}
 		}
-		public function changeStyle(txt : TextField, style : Function) : void {
-			this[style]();
-			var formats:Object = getTextFieldParams();
-			for(var i:String in formats) txt[i] = formats[i];
-
-			var fmt:TextFormat = getTextFormat();
-			txt.setTextFormat(fmt);
-			txt.text = txt.text;
-		}
 
 		public function System() : void {
-			embed_fonts = false;
+			embedFonts = false;
 			font = "_sans";
-			font_size = 11;
+			fontSize = 11;
 			background = true;
 		}
 
@@ -90,10 +117,11 @@ package tidy.mvc.helper {
 			return new TypographyBase("System");
 		}
 
+		public var verticalOffset : Number = 0;
 		/*
 		 * TextFormat stuff
 		 */
-		public var font_size : Number = 12;
+		public var fontSize : Number = 12;
 		public var font : String = "Bodyfont";
 		public var colour : Number = 0;
 		public var bold : Boolean = false;
@@ -102,23 +130,23 @@ package tidy.mvc.helper {
 		public var url : String = "";
 		public var target : String = "";
 		public var align : String = "left";
-		public var left_margin : Number = 0;
-		public var right_margin : Number = 0;
+		public var leftMargin : Number = 0;
+		public var rightMargin : Number = 0;
 		public var indent : Number = 0;
 		public var leading : Number = 0;
 
 		/*
 		 * TextField parameters
 		 */
-		public var auto_size : String = "left";
+		public var autoSize : String = "left";
 		public var background : Boolean = false;
-		//public var html : Boolean = false;
-		public var word_wrap : Boolean = true;
+		public var html : Boolean = false;
+		public var wordWrap : Boolean = true;
 		public var multiline : Boolean = true;
-		public var condense_white : Boolean = true;
+		public var condenseWhite : Boolean = true;
 		public var border : Boolean = false;
 		public var selectable : Boolean = false;
-		public var embed_fonts : Boolean = true;
+		public var embedFonts : Boolean = true;
 		public var type : String = "dynamic";
 		/**
 		 * Flash 8 only
@@ -139,7 +167,7 @@ package tidy.mvc.helper {
 		 * when antiAliasType() is set to "advanced".
 		 */
 		public var thickness:Number = 0;
-		public var max_chars : Number;
+		public var maxChars : Number;
 		/**
 		 * Flash 8 only
 		 * The range for sharpness is a number from -400 to 400.
@@ -150,6 +178,8 @@ package tidy.mvc.helper {
 		 * The amount of space that is uniformly distributed between characters.
 		 */
 		public var letterSpacing : Number = 0;
+		
+		public var kerning : Boolean = false;
 
 
 		public var filters : Array = [];
@@ -158,33 +188,103 @@ package tidy.mvc.helper {
 		}
 
 		public function getTextFormat() : TextFormat{
-			var tf : TextFormat = new TextFormat(font, font_size, colour,
+			var tf : TextFormat = new TextFormat(font, fontSize, colour,
 									bold, italic, underline, url,target, align,
-									left_margin, right_margin, indent, leading);
+									leftMargin, rightMargin, indent, leading);
 			tf.letterSpacing = letterSpacing;
+			tf.kerning = kerning;
 			return tf;
 		}
+		
 		public function getTextFieldParams():Object{
-			var t:Object = new Object(); // TextField
-			t.background = background;
-			t.embedFonts = embed_fonts;
-			t.selectable = selectable;
-			t.border = border;
-			t.condenseWhite = condense_white;
-			t.multiline = multiline;
-			t.wordWrap = word_wrap;
-			//t.html = html;
-			t.autoSize = auto_size;
-			t.type = type;
-			t.antiAliasType = antiAliasType;
-			t.gridFitType = gridFitType;
-			t.thickness = thickness;
-			t.sharpness = sharpness;
-			t.maxChars = max_chars;
-			return t;
+			return {
+				background: background,
+				embedFonts: embedFonts,
+				selectable: selectable,
+				border: border,
+				condenseWhite: condenseWhite,
+				multiline: multiline,
+				wordWrap: wordWrap,
+				html: html,
+				autoSize: autoSize,
+				type: type,
+				antiAliasType: antiAliasType,
+				gridFitType: gridFitType,
+				thickness: thickness,
+				sharpness: sharpness,
+				maxChars: maxChars,
+				filters: filters
+			};
 		}
-
 		
+		/**
+		 * Returns a copy of the style itself
+		 * @return the copy
+		 *
+		 * @author christian
+		 */
+		public function clone () : TypographyBase
+		{
+			var attributes : Array = [
+				"fontSize",
+				"font",
+				"color",
+				"bold",
+				"italic",
+				"underline",
+				"target",
+				"url",
+				"align",
+				"leftMargin",
+				"rightMargin",
+				"indent",
+				"leading",
+				"auto_size",
+				"background",
+				"html",
+				"word_wrap",
+				"multiline",
+				"condenseWhite",
+				"border",
+				"selectable",
+				"embed_fonts",
+				"type",
+				"antiAliasType",
+				"gridFitType",
+				"thickness",
+				"sharpness",
+				"maxChars",
+				"letterSpacing",
+				"kerning",
+				"filters"];
+			
+			var res : TypographyBase = new TypographyBase("Defaults");
+			for each(var attribute : String in attributes){
+				res[attribute] = this[attribute];
+			}
+			return res;
+		}
 		
+		/**
+		 * Force the textfiled to be in one line setting wordWrap and multiline properties
+		 *
+		 * @author christian
+		 */
+		public function doOneLine () : void
+		{
+			wordWrap = false;
+			multiline = false;
+		}
+		
+		/**
+		 * Force the textfiled to be in more than one line setting wordWrap and multiline properties
+		 *
+		 * @author christian
+		 */
+		public function doMultiline() : void
+		{
+			wordWrap = true;
+			multiline = true;
+		}
 	}
 }

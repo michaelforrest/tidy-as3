@@ -1,4 +1,5 @@
-package tidy.mvc.view {
+package tidy.mvc.view 
+{
 	import tidy.animation.animator.Animator;
 	import tidy.debug.Log;
 	import tidy.mvc.helper.TypographyBase;
@@ -6,7 +7,6 @@ package tidy.mvc.view {
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.geom.Point;
-	import flash.geom.Rectangle;
 	import flash.utils.getDefinitionByName;
 
 	/**
