@@ -5,19 +5,20 @@ package tidy.mvc.view {
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.net.URLRequest;
+	import flash.utils.getDefinitionByName;
 
 	/**
 	 * @author michaelforrest
 	 */
-	public class LoadsAnImageView extends ExplodableView{
+	public class LoadsAnImageView extends PackableView{
 		private var image_url : String;
 		private var loader : Loader;
-		protected var image : ViewBase;
+		protected var image : TidyView;
 		public function LoadsAnImageView(options : Object = null) {
 			super(options);
 		}
 		
-		public function loadImage(url : String) : ViewBase {
+		public function loadImage(url : String) : TidyView {
 			if(image){
 				destroyImage();
 			}
@@ -28,9 +29,9 @@ package tidy.mvc.view {
 		}
 
 		private function createImage() : void {
-			image = new ViewBase();
-			addChild(image);
-			loader  = new Loader();
+			var resultClass:Class = getDefinitionByName("app.views.ViewBase") as Class || TidyView;
+			image = add(resultClass);
+			loader = new Loader();
 			image.addChild(loader);
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded,false,0,true);
 			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onIOError,false,0,true);

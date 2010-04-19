@@ -1,9 +1,7 @@
 package tidy.debug {
-	import tidy.mvc.helper.TypographyBase;
-	import tidy.mvc.view.ViewBase;
+	import tidy.mvc.view.TidyView;
 
 	import flash.events.Event;
-	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.utils.getTimer;
 
@@ -11,7 +9,7 @@ package tidy.debug {
 	 * @author michaelforrest
 	 * (based on http://kaioa.com/node/83)
 	 */
-	public class FPSView extends ViewBase {
+	public class FPSView extends TidyView {
 		private var last : uint = getTimer();
 		private var ticks : uint = 0;
 		private var label : TextField;
@@ -22,14 +20,7 @@ package tidy.debug {
 		}
 
 		private function onAddedToStage(event : Event) : void {
-			trace("made fps view");
-			var style : TypographyBase = new TypographyBase();
-			style.embed_fonts = false;
-			style.font = "_sans";
-			style.align = "right";
-			columnWidth = stage.stageWidth;
-			label = addTextField(style, new Rectangle(0,0,100,30));
-			
+			label = text("","FPS", 50);
 			addEventListener(Event.ENTER_FRAME, onEnterFrame,false,0,true);
 		}
 

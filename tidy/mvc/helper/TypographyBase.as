@@ -184,21 +184,6 @@ package tidy.mvc.helper {
 			return t;
 		}
 
-		public static function createTextField(style : TypographyBase, rectangle : Rectangle) : TidyTextField {
-			var txt : TidyTextField = new TidyTextField(style);
-			txt.x = rectangle.x;
-			txt.y = rectangle.y;
-			txt.width = rectangle.width;
-			txt.height = rectangle.height;
-			var formats:Object = style.getTextFieldParams();
-			for(var i:String in formats) txt[i] = formats[i];
-
-			var fmt : TextFormat = style.getTextFormat();
-			txt.defaultTextFormat = fmt;
-			txt.setTextFormat(fmt);
-			txt.filters = style.filters;
-			return txt;
-		}
 		
 		
 	}

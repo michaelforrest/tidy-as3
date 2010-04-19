@@ -1,6 +1,4 @@
 package tidy.mvc.view {
-	import tidy.mvc.view.AnimatableView;
-
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -8,7 +6,7 @@ package tidy.mvc.view {
 	/**
 	 * @author michaelforrest
 	 */
-	public class DraggableView extends AnimatableView {
+	public class DraggableView extends PackableView {
 		private var clickedPoint : Point;
 		
 		private var __anchor: Point = new Point(0, 0);
