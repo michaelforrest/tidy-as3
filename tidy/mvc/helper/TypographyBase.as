@@ -1,5 +1,6 @@
 package tidy.mvc.helper 
 {
+	import tidy.debug.Log;
 	import tidy.mvc.view.TidyTextField;
 	import flash.text.TextFormat;
 
@@ -102,7 +103,7 @@ package tidy.mvc.helper
 			if(style && this.hasOwnProperty(style)) {
 				this[style]();
 			}else{
-				trace("ERROR: Style " + style + " not found on " + this);
+				Log.error("Style \"" + style + "\" not found on " + this);
 			}
 		}
 
@@ -113,7 +114,8 @@ package tidy.mvc.helper
 			background = true;
 		}
 
-		public static function getSystemFont() : TypographyBase{
+		public static function getSystemFont() : TypographyBase
+		{
 			return new TypographyBase("System");
 		}
 
@@ -123,7 +125,7 @@ package tidy.mvc.helper
 		 */
 		public var fontSize : Number = 12;
 		public var font : String = "Bodyfont";
-		public var colour : Number = 0;
+		public var color : Number = 0;
 		public var bold : Boolean = false;
 		public var italic : Boolean = false;
 		public var underline : Boolean = false;
@@ -188,7 +190,7 @@ package tidy.mvc.helper
 		}
 
 		public function getTextFormat() : TextFormat{
-			var tf : TextFormat = new TextFormat(font, fontSize, colour,
+			var tf : TextFormat = new TextFormat(font, fontSize, color,
 									bold, italic, underline, url,target, align,
 									leftMargin, rightMargin, indent, leading);
 			tf.letterSpacing = letterSpacing;
@@ -205,7 +207,6 @@ package tidy.mvc.helper
 				condenseWhite: condenseWhite,
 				multiline: multiline,
 				wordWrap: wordWrap,
-				html: html,
 				autoSize: autoSize,
 				type: type,
 				antiAliasType: antiAliasType,
@@ -239,15 +240,15 @@ package tidy.mvc.helper
 				"rightMargin",
 				"indent",
 				"leading",
-				"auto_size",
+				"autoSize",
 				"background",
 				"html",
-				"word_wrap",
+				"wordWrap",
 				"multiline",
 				"condenseWhite",
 				"border",
 				"selectable",
-				"embed_fonts",
+				"embedFonts",
 				"type",
 				"antiAliasType",
 				"gridFitType",

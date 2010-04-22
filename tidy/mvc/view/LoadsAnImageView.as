@@ -1,11 +1,11 @@
-package tidy.mvc.view {
+package tidy.mvc.view 
+{
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.LoaderInfo;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.net.URLRequest;
-	import flash.utils.getDefinitionByName;
 
 	/**
 	 * @author michaelforrest
@@ -29,7 +29,7 @@ package tidy.mvc.view {
 		}
 
 		private function createImage() : void {
-			var resultClass:Class = getDefinitionByName("app.views.ViewBase") as Class || TidyView;
+			var resultClass:Class = getClassByName("app.views.ViewBase", TidyView);
 			image = add(resultClass);
 			loader = new Loader();
 			image.addChild(loader);

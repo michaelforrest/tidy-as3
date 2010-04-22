@@ -22,11 +22,22 @@ package tidy.mvc.view
 		public function set visibility(v:Number):void{
 			__visibility = v;
 		}
+		
+		public var autoHide : Boolean = false;
+		override public function set alpha ( v : Number ) : void
+		{
+			super.alpha = v;
+			if(!autoHide)
+				return;
+			visible = v>0;
+		}
+		
 		public function TidyView(options : Object = null) {
 			if(options) for (var key : String in options) this[key] = options[key];
 			animator = new Animator(this);
 			visibility = 1;
 		}
+		
 		public function hide() : void {
 			animator.visibility = 0;
 		}
@@ -41,7 +52,7 @@ package tidy.mvc.view
 		public function add(viewClass : Class, model:Object=null) : TidyView {
 			Log.assert(viewClass != null, "viewClass is null!");
 			var result : DisplayObject = model ? new viewClass(model) : new viewClass();
-			var resultClass:Class = getDefinitionByName("app.views.ViewBase") as Class || TidyView;
+			var resultClass:Class = getClassByName("app.views.ViewBase", TidyView);
 			if(!(result is resultClass)) {
 				var child : DisplayObject = result;
 				result = new resultClass();
@@ -52,9 +63,8 @@ package tidy.mvc.view
 		}
 		
 		public function text(text : String, style : String="Paragraph", width : Number = 800) : TidyTextField {
-			if(text == null) trace("Error trying to set text of " + this + " to null" );
-			var typographyClass : Class = getDefinitionByName("app.helpers.Typography") as Class || TypographyBase;
-			
+			Log.assert(text != null, "text can't be null");
+			var typographyClass : Class = getClassByName("app.helpers.Typography", TypographyBase);
 			var textField : TidyTextField = new TidyTextField(new typographyClass(style), text, width);
 			textField.text = text;
 			textField.height = textField.textHeight + 4; // if 2px padding is still the strange magic number
@@ -62,6 +72,17 @@ package tidy.mvc.view
 			return textField;
 		}
 		
+		protected function getClassByName (name : String, defaultClass : Class) : Class
+		{
+			var resultClass:Class;
+			try{
+				resultClass = getDefinitionByName(name) as Class;
+			}catch (error : ReferenceError) {
+				return defaultClass;
+			}
+			return resultClass;
+		}
+
 		public function get position():Point{
 			return new Point(x,y);
 		}
@@ -81,18 +102,49 @@ package tidy.mvc.view
 			}
 		}
 
-		public function align(child : DisplayObject, childPosition : Point, childDimensions : Point = null, parentDimensions : Point = null) : void {
-			if(!childDimensions) {
-				childDimensions = new Point(child.width, child.height);
+		public function align(child : DisplayObject, childPosition : Point, childSize : Point = null, parentSize : Point = null) : void {
+			if(!childSize) {
+				childSize = new Point(child.width, child.height);
 			}
-			if(!parentDimensions) {
-				parentDimensions = new Point(width,height);
+			if(!parentSize) {
+				parentSize = new Point(width,height);
 			}
-			child.x = ( parentDimensions.x - childDimensions.x) * childPosition.x;
-			child.y = ( parentDimensions.y - childDimensions.y) * childPosition.y;
+			child.x = ( parentSize.x - childSize.x) * childPosition.x;
+			child.y = ( parentSize.y - childSize.y) * childPosition.y;
 		}
 		
+		public function get children () : Array
+		{
+			var res : Array = [];
+			var len : int = numChildren;
+			for(var i:uint=0; i<len; i++){
+				res.push(getChildAt(i));
+			}
+			return res;
+		}
 		
+		public function removeChildren() : void
+		{
+			var child : DisplayObject;
+			while(numChildren>0){
+				child = getChildAt(0);
+				try{
+					child["dispose"]();
+				}catch(e:*){}
+				if(child.parent)
+					removeChild(child);
+			}
+		}
 		
+		/**
+		 * Removes the TidyView
+		 * 
+		 * @author Christian Giordano
+		 */
+		public function dispose() : void
+		{
+			removeChildren();
+			if(parent)	parent.removeChild(this);
+		}
 	}
 }

@@ -51,6 +51,7 @@ package tidy.debug
 		
 		public function fatal(message : String) : void
 		{
+			output(LogType.FATAL, message);
 			throw new Error(message);
 		}
 

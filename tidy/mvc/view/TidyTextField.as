@@ -1,5 +1,6 @@
 package tidy.mvc.view 
 {
+	import tidy.debug.Log;
 	import tidy.mvc.helper.ColorHelper;
 	import tidy.mvc.helper.TypographyBase;
 
@@ -18,6 +19,9 @@ package tidy.mvc.view
 		public function set style (v:TypographyBase) : void
 		{
 			__style = v;
+			
+			if(v.embedFonts && v.font.substr(0,1)=="_")
+				Log.warn("The font name starts with \"_\" and the font is set as embedded");
 			
 			var formats:Object = __style.getTextFieldParams();
 			for(var i:String in formats) this[i] = formats[i];
@@ -57,8 +61,8 @@ package tidy.mvc.view
 		}
 		
 		public function invert(v : Number) : void {
-			var inverse :Number = 0xFFFFFF - style.colour;
-			textColor = ColorHelper.interpolate(style.colour, inverse, v);
+			var inverse :Number = 0xFFFFFF - style.color;
+			textColor = ColorHelper.interpolate(style.color, inverse, v);
 		}
 
 		

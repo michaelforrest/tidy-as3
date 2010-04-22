@@ -1,14 +1,14 @@
 package tidy.mvc.model {
+	import tidy.debug.Log;
 
 	/**
 	 * @author michaelforrest
 	 */
 	public class Check {
 		public static function notNull(source : Object, required_fields : Array) : void {
-			if(source == null) throw new Error("Check.notNull error: source not supplied");
-			for (var i : int = 0; i < required_fields.length; i++) {
-				var field : String = required_fields[i];
-				if(source[field] == null) throw new Error("Check.notNull error: field " + field + " is null on source " + source);
+			Log.assert(source != null, "Check.notNull error: source not supplied");
+			for each(var field : String in required_fields){
+				Log.assert(source[field] != null, "Check.notNull error: field " + field + " is null on source " + source);
 			}
 		}
 	}

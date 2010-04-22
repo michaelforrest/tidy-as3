@@ -33,11 +33,15 @@ package tidy.animation.animator {
 			transitions = new Searchable([]);
 		}
 
-		public function setDefaultFrames(n : Number) : void{
+		public function setDefaultFrames(n : Number) : Animator
+		{
 			defaultFrames = n;
+			return this;
 		}
-		public function setDefaultEasing(f : Function) : void{
+		public function setDefaultEasing(f : Function) : Animator
+		{
 			defaultEasing = f;
+			return this;
 		}
 		private function registerTransition($property : String) : Transition {
 			var transition : Transition = new Transition(object,$property);
@@ -61,10 +65,11 @@ package tidy.animation.animator {
 		}
 
 		private function getTransitionByProperty($property : String) : Transition {
-			return transitions.findByProperty("property", $property) as Transition || registerTransition($property);
+			return transitions.findByProperty("property", $property) as Transition
+				|| registerTransition($property);
 		}
 		public function isAnimating(property : String) : Boolean{
-			var t : Transition=  getTransitionByProperty(property);
+			var t : Transition = transitions.findByProperty("property", property) as Transition;
 			if(!t) return false;
 			return t.isInProgress();
 		}
@@ -79,7 +84,7 @@ package tidy.animation.animator {
 			change(property).removeEventListener(Transition.COMPLETE, callback);
 		}
 		public function wait(frames:Number):void{
-			trace("wait not implemented") 
+			trace("wait not implemented");
 		}
 
 	}

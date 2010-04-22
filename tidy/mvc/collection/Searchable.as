@@ -23,8 +23,8 @@ package tidy.mvc.collection {
 	
 		public static function initialize($searchable : ISearchable) : void {
 			var instance : Searchable = new Searchable([]);
-			$searchable["findByProperty"] = instance.findByProperty;
-			$searchable["findByValue"] = instance.findByValue;
+			$searchable.findByProperty = instance.findByProperty;
+			$searchable.findByValue = instance.findByValue;
 		}
 		
 		public function Searchable($array: Array ) {

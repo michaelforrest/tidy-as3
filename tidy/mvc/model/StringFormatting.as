@@ -133,7 +133,7 @@ package tidy.mvc.model {
 
 
 		public static function collectionize(class_name : String) : String {
-			return underscore(class_name).toLowerCase() + "s";			;
+			return underscore(class_name) + "s";
 		}
 
 		public static function sentenceCase(underscored : String) : String {

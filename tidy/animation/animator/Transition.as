@@ -26,9 +26,12 @@ package tidy.animation.animator {
 	    License along with this library; if not, write to the Free Software
 	    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
+ dispaches: Event.COMPLETE
 	 */
-	public class Transition extends EventDispatcher {
+	public class Transition extends EventDispatcher
+	{
 		public static var COMPLETE : String = "complete";
+		
 		private function dispatchComplete(e:Event):void {
 			animation = null;
 			dispatchEvent(new Event(COMPLETE));
