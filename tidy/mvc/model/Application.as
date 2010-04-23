@@ -21,8 +21,6 @@ package tidy.mvc.model {
 			dependencyLoader.addEventListener(SequentialDependencyLoader.READY, onXMLReady,false,0,true);
 		}
 
-
-
 		private function prepare(element : *, index : int, arr : Array) : EventDispatcher {
 			if(!element.prepare) throw new Error("Please create a prepare() : EventDispatcher {} event on class " +  getQualifiedClassName(element));
 			return element.prepare();

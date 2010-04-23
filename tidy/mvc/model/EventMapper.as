@@ -1,4 +1,5 @@
 package tidy.mvc.model {
+	import tidy.debug.Log;
 	import tidy.mvc.collection.Collection;
 
 	import flash.events.EventDispatcher;
@@ -17,14 +18,10 @@ package tidy.mvc.model {
 		 * @param events = an array of event names dispatched by the controller
 		 */
 		public function registerEvents(view : Object,events : Array) : void {
-			for (var i : Number = 0; i < events.length; i++) {
-				var event:String = events[i];
+			for each(var event:String in events) {
 				var method_name:String = eventToMethodName(event);
 				var responding_method:Function = view[method_name];
-				if( responding_method === null ) {
-					var msg:String ="Error - view class "+ getQualifiedClassName(view) + " does not implement " + method_name;
-					throw new Error(msg);
-				}
+				Log.assert(responding_method === null, "Error - view class "+ getQualifiedClassName(view) + " does not implement " + method_name);
 				addEventListener(event, responding_method,false,0,true);
 				trackListener(view);
 			}
@@ -37,8 +34,7 @@ package tidy.mvc.model {
 
 		public function unregisterEvents(view : Object, events : Array) : void {
 			if(!events) return;
-			for (var i : Number = 0; i < events.length; i++) {
-				var event:String = events[i];
+			for each(var event:String in events) {
 				removeEventListener(event,  view[eventToMethodName(event)]);
 			}
 			untrackListener(view);
@@ -69,8 +65,7 @@ package tidy.mvc.model {
 		}
 		private function eventIsPossible(event_name : String) : Boolean {
 			var possible_events:Array = getPossibleEvents();
-			for (var i : Number = 0; i < possible_events.length; i++) {
-				var e:String = possible_events[i];
+			for each(var e:String in possible_events) {
 				if (e==event_name) return true;
 			}
 			return false;

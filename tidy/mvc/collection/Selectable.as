@@ -10,9 +10,6 @@ package tidy.mvc.collection {
 		// Gonna see how easy this makes testing!
 		public static var lastSelectedThing : Selectable;
 
-
-
-
 		protected function dispatchSelected():void {dispatchEvent(new Event(SELECTED));}
 		public static const DESELECTED : String = "deselected";
 

@@ -1,19 +1,15 @@
 package test 
 {
-	import test.mvc.helper.ClonerTest;
-	import flash.display.Sprite;
-	import flash.utils.getQualifiedClassName;
-	import tidy.mvc.helper.Cloner;
-	import tidy.mvc.helper.TypographyBase;
-	import test.debug.LbiLoggerTest;
-	import test.debug.LogTest;
-	import test.mvc.model.StringFormattingTest;
-	import test.animation.animator.AnimatorTest;
-	import test.mvc.model.CheckTest;
-	import test.mvc.view.TidyViewTest;
 	import asunit.framework.TestSuite;
 
+	import test.animation.animator.AnimatorTest;
+	import test.debug.LbiLoggerTest;
+	import test.debug.LogTest;
+	import test.mvc.helper.ClonerTest;
 	import test.mvc.helper.TypographyBaseTest;
+	import test.mvc.model.CheckTest;
+	import test.mvc.model.StringFormattingTest;
+	import test.mvc.view.TidyViewTest;
 
 	/**
 	 * @author christian
