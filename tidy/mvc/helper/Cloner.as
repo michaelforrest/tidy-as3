@@ -5,7 +5,10 @@ package tidy.mvc.helper {
 	 * @author michaelforrest
 	 */
 	public class Cloner {
-		// from kirupa
+		/**
+		 * from kirupa
+		 * it works only with simple objects {}, not class instances
+		 */
 		public static function clone(source:Object):* {
 		    var copier:ByteArray = new ByteArray();
 		    copier.writeObject(source);

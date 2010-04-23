@@ -1,5 +1,10 @@
 package test 
 {
+	import test.mvc.helper.ClonerTest;
+	import flash.display.Sprite;
+	import flash.utils.getQualifiedClassName;
+	import tidy.mvc.helper.Cloner;
+	import tidy.mvc.helper.TypographyBase;
 	import test.debug.LbiLoggerTest;
 	import test.debug.LogTest;
 	import test.mvc.model.StringFormattingTest;
@@ -24,6 +29,7 @@ package test
 			addTest(new LbiLoggerTest());			addTest(new LogTest());
 			
 			addTest(new StringFormattingTest());
+			addTest(new ClonerTest());
 			
 			addTest(new TypographyBaseTest());
 			addTest(new TidyViewTest());
