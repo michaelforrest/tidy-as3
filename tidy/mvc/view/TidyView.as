@@ -1,5 +1,6 @@
 package tidy.mvc.view 
 {
+	import flash.utils.getQualifiedClassName;
 	import tidy.animation.animator.Animator;
 	import tidy.debug.Log;
 	import tidy.mvc.helper.TypographyBase;
@@ -13,8 +14,21 @@ package tidy.mvc.view
 	 * @author michaelforrest
 	 */
 	public class TidyView extends Sprite {
-		public var animator : Animator;
-		private var __visibility: Number;
+		protected var __animator : Animator;
+		public function get animator () : Animator
+		{
+			if(__animator == null) {
+				__animator = new Animator(this);
+			}
+			return __animator;
+		}
+
+		public function set animator (v : Animator) : void
+		{
+			__animator = v;
+		}
+
+		private var __visibility: Number = 1;
 		
 		public function get visibility():Number{
 			return __visibility;
@@ -33,9 +47,18 @@ package tidy.mvc.view
 		}
 		
 		public function TidyView(options : Object = null) {
-			if(options) for (var key : String in options) this[key] = options[key];
-			animator = new Animator(this);
-			visibility = 1;
+			setOptions(options);
+		}
+		
+		protected function setOptions (options : Object = null) : void
+		{
+			for (var key : String in options){
+				try{
+					this[key] = options[key];
+				}catch(e : Error){
+					Log.warn("Couldn't set property \"" + key + "\" in class \"" + getQualifiedClassName(this) + "\"");
+				}
+			}
 		}
 		
 		public function hide() : void {

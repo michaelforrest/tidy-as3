@@ -23,13 +23,27 @@ package tidy.mvc.view {
 		private var maxRowHeight : Number = 0;
 
 		public function PackableView(options : Object = null) {
+			super(options);
 			elements = new Collection();
 
 			nextX = paddingLeft;
 			nextY = paddingTop;
-			
 		}
+
 		
+		override protected function setOptions(options : Object = null) : void 
+		{
+			for (var key : String in options){
+				// if the options can be set, it won't be set anymore by the super
+				try{
+					this[key] = options[key];
+					delete options[key];
+				}catch(e : Error){
+				}
+			}
+			super.setOptions(options);
+		}
+
 		public function append(element : DisplayObject) : DisplayObject {
 			if(!element.parent) addChild(element);
 			placeElement(element);
