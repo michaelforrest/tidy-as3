@@ -61,12 +61,24 @@ package tidy.mvc.view
 			}
 		}
 		
-		public function hide() : void {
-			animator.visibility = 0;
+		
+		// TODO: refactor the following two methods.
+		public function hide(options : Object = null) : TidyView {
+			if(options && options.animate == false){
+				visibility = 0;
+			}else{
+				animator.visibility = 0;
+			}
+			return this;
 		}
 
-		public function show() : void {
-			animator.visibility = 1;
+		public function show(options : Object = null) : TidyView {
+			if(options && options.animate == false){
+				visibility = 1;
+			}else{
+				animator.visibility = 1;
+			}
+			return this;
 		}
 
 		/**
@@ -85,11 +97,10 @@ package tidy.mvc.view
 			return result as TidyView;
 		}
 		
-		public function text(text : String, style : String="Paragraph", width : Number = 800) : TidyTextField {
+		public function text(text : String, style : String="Paragraph", width : Number = NaN) : TidyTextField {
 			Log.assert(text != null, "text can't be null");
 			var typographyClass : Class = getClassByName("app.helpers.Typography", TypographyBase);
-			var textField : TidyTextField = new TidyTextField(new typographyClass(style), text, width);
-			textField.text = text;
+			var textField : TidyTextField = new TidyTextField(new typographyClass(style), text, isNaN(width) ? 800 : width );
 			textField.height = textField.textHeight + 4; // if 2px padding is still the strange magic number
 			addChild(textField);
 			return textField;
@@ -114,7 +125,7 @@ package tidy.mvc.view
 			y = v.y;
 		}
 		
-		public function setPosition(...args) : void {
+		public function setPosition(...args) : TidyView {
 			if(args[0] is Point) {
 				var position : Point = args[0] as Point;
 				x = position.x;
@@ -123,9 +134,10 @@ package tidy.mvc.view
 				x = args[0];
 				y = args[1];
 			}
+			return this;
 		}
 
-		public function align(child : DisplayObject, childPosition : Point, childSize : Point = null, parentSize : Point = null) : void {
+		public function align(child : DisplayObject, childPosition : Point, childSize : Point = null, parentSize : Point = null) : TidyView {
 			if(!childSize) {
 				childSize = new Point(child.width, child.height);
 			}
@@ -134,16 +146,17 @@ package tidy.mvc.view
 			}
 			child.x = ( parentSize.x - childSize.x) * childPosition.x;
 			child.y = ( parentSize.y - childSize.y) * childPosition.y;
+			return this;
 		}
 		
 		public function get children () : Array
 		{
-			var res : Array = [];
+			var results : Array = [];
 			var len : int = numChildren;
 			for(var i:uint=0; i<len; i++){
-				res.push(getChildAt(i));
+				results.push(getChildAt(i));
 			}
-			return res;
+			return results;
 		}
 		
 		public function removeChildren() : void
