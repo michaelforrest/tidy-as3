@@ -47,8 +47,7 @@ package tidy.mvc.view
 			
 			this.text = text;
 			
-			if(!__style.multiline) width = textWidth + 4;
-			
+			if(!__style.multiline) this.width = textWidth + 4;
 			//mouseWheelEnabled = false; used in Tonic
 		}
 		

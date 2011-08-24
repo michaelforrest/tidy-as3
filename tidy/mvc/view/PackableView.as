@@ -121,6 +121,9 @@ package tidy.mvc.view {
 			nextX = paddingLeft;
 		}
 
+		override public function text(text : String, style : String = "Paragraph", width : Number = NaN) : TidyTextField {
+			return super.text(text, style, isNaN(width) ? columnWidth : width);
+		}
 		
 	}
 }

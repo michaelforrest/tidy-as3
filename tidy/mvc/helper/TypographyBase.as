@@ -1,8 +1,13 @@
 package tidy.mvc.helper 
 {
 	import tidy.debug.Log;
+	import tidy.mvc.view.PackableView;
 	import tidy.mvc.view.TidyTextField;
+	import tidy.mvc.view.TidyView;
+
 	import flash.text.TextFormat;
+	import flash.utils.describeType;
+	import flash.utils.getDefinitionByName;
 
 	/**
 	LBi Useful ActionScript 3 Library (ported from AS2 Library equivalent)
@@ -286,6 +291,20 @@ package tidy.mvc.helper
 		{
 			wordWrap = true;
 			multiline = true;
+		}
+		
+		public static function showAllStyles() : TidyView {
+			var result : PackableView = new PackableView({columnWidth:800});
+			var base : XML = describeType(getDefinitionByName("tidy.mvc.helper.TypographyBase"));
+			var appTypography : XML = describeType(getDefinitionByName("app.helpers.Typography"));
+			
+			for each (var method:XML in appTypography.factory.method) {
+				var inBaseClass : XMLList = base.factory.method.(attribute("name") == method.@name);
+				if(inBaseClass.length() == 0){
+					result.append(result.text(method.@name, method.@name));
+				}
+			}
+			return result;
 		}
 	}
 }
