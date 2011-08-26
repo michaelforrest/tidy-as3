@@ -67,6 +67,7 @@ package tidy.mvc.view
 			if(options && options.animate == false){
 				visibility = 0;
 			}else{
+				animator.change("visibility").setFrames( options ? options.frames || 10 : 10 );
 				animator.visibility = 0;
 			}
 			return this;
@@ -76,6 +77,7 @@ package tidy.mvc.view
 			if(options && options.animate == false){
 				visibility = 1;
 			}else{
+				animator.change("visibility").setFrames( options ? options.frames || 10 : 10 );
 				animator.visibility = 1;
 			}
 			return this;
