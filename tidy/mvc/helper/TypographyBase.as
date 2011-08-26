@@ -61,8 +61,8 @@ package tidy.mvc.helper
  * </pre>
  *
  */
-	public class TypographyBase
-	{
+	public class TypographyBase {
+		private var _lineHeight : Number;
 
 		/**
 		 * Returns the width of a string given a style
@@ -128,7 +128,15 @@ package tidy.mvc.helper
 		/*
 		 * TextFormat stuff
 		 */
-		public var fontSize : Number = 12;
+		private var _fontSize : Number = 12;
+		
+		public function get fontSize() : Number {
+			return _fontSize;
+		}
+		public function set fontSize(v:Number): void{
+			_fontSize = v;
+			if(_lineHeight) lineHeight = _lineHeight;
+		}
 		public var font : String = "Bodyfont";
 		public var color : Number = 0;
 		public var bold : Boolean = false;
@@ -142,6 +150,10 @@ package tidy.mvc.helper
 		public var indent : Number = 0;
 		public var leading : Number = 0;
 
+		protected function set lineHeight(v : Number) : void {
+			_lineHeight = v;
+			leading = v - fontSize - 2;
+		}
 		/*
 		 * TextField parameters
 		 */
