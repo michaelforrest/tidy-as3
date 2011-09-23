@@ -43,10 +43,10 @@ package tidy.mvc.view {
 			}
 			super.setOptions(options);
 		}
-
-		public function append(element : DisplayObject) : DisplayObject {
+		
+		public function append(element : DisplayObject, options:Object = null) : DisplayObject {
 			if(!element.parent) addChild(element);
-			placeElement(element);
+			placeElement(element,options);
 			elements.add(element);
 			return element;
 		}
@@ -60,15 +60,16 @@ package tidy.mvc.view {
 			return elements;
 		}
 
-		protected function placeElement(element : DisplayObject) : void {
+		protected function placeElement(element : DisplayObject,options:Object = null) : void {
+			var offset : Number = options && !isNaN(options.offset) ? options.offset : 0;
 			if(orientation == VERTICAL){
 				if(maxHeight && nextY + element.height  > maxHeight) {
 					nextY = paddingTop;
 					nextX += columnWidth + spacing;
 				}
+				nextY += offset;
 				moveElement(element,nextX,nextY);
 				nextY += element.height + spacing;
-//				trace("object", this,unique_id, "y=", element.y,"element.height=",element.height,"nextY",nextY);
 			}else{
 				maxRowHeight = Math.max(maxRowHeight, element.height);
 				if(maxWidth && nextX + element.width > maxWidth) {
@@ -76,6 +77,7 @@ package tidy.mvc.view {
 					nextX = paddingLeft;
 					maxRowHeight = 0;
 				}
+				nextX += offset;
 				moveElement(element,nextX,nextY);
 				nextX = element.x + element.width + spacing;
 			}
