@@ -4,6 +4,8 @@ package tidy.mvc.view
 	import tidy.mvc.helper.ColorHelper;
 	import tidy.mvc.helper.TypographyBase;
 
+	import flash.geom.Point;
+	import flash.text.StyleSheet;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 
@@ -23,11 +25,23 @@ package tidy.mvc.view
 			if(v.embedFonts && v.font.substr(0,1)=="_")
 				Log.warn("The font name starts with \"_\" and the font is set as embedded");
 			
+			mouseWheelEnabled = false;
+			
 			var formats:Object = __style.getTextFieldParams();
 			for(var i:String in formats) this[i] = formats[i];
 			var fmt : TextFormat = __style.getTextFormat();
+			
+			
 			defaultTextFormat = fmt;
 			setTextFormat(fmt);
+
+			if(style.html){
+				var stylesheet : StyleSheet = new StyleSheet();
+				for (var styleName : String in style.cssStyles) {
+					stylesheet.setStyle(styleName, style.cssStyles[styleName]);
+				}
+				this.styleSheet = stylesheet;
+			}
 		}
 		
 		public var autoAssignText : Boolean = true;
@@ -64,6 +78,16 @@ package tidy.mvc.view
 			textColor = ColorHelper.interpolate(style.color, inverse, v);
 		}
 
-		
+		public function setPosition(...args) : TidyTextField {
+			if(args[0] is Point) {
+				var position : Point = args[0] as Point;
+				x = position.x;
+				y = position.y;
+			}else{
+				x = args[0];
+				y = args[1];
+			}
+			return this;
+		}
 	}
 }

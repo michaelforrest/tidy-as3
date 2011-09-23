@@ -202,6 +202,7 @@ package tidy.mvc.helper
 
 
 		public var filters : Array = [];
+		public var cssStyles : Object = {};
 
 		protected function Defaults() : void {
 		}
