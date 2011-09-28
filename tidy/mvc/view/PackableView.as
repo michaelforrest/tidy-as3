@@ -71,12 +71,12 @@ package tidy.mvc.view {
 				moveElement(element,nextX,nextY);
 				nextY += element.height + spacing;
 			}else{
-				maxRowHeight = Math.max(maxRowHeight, element.height);
 				if(maxWidth && nextX + element.width > maxWidth) {
 					nextY += maxRowHeight + spacing;
 					nextX = paddingLeft;
 					maxRowHeight = 0;
 				}
+				maxRowHeight = Math.max(maxRowHeight, element.height);
 				nextX += offset;
 				moveElement(element,nextX,nextY);
 				nextX = element.x + element.width + spacing;
